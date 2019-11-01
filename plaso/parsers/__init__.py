@@ -84,3 +84,6 @@ from plaso.parsers import winreg_plugins
 # used by parsers in other modules.
 # from plaso.parsers import dsv_parser
 # from plaso.parsers import text_parser
+
+from plaso.parsers import filehistory_config
+from plaso.parsers import filehistory_restorelog
