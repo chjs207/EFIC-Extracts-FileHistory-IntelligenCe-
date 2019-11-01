@@ -28,7 +28,7 @@ from plaso.formatters import cron
 from plaso.formatters import cups_ipp
 from plaso.formatters import docker
 from plaso.formatters import dpkg
-from plaso.formatters import file_history
+
 from plaso.formatters import file_system
 from plaso.formatters import firefox
 from plaso.formatters import firefox_cache
@@ -126,3 +126,9 @@ from plaso.formatters import xchatlog
 from plaso.formatters import xchatscrollback
 from plaso.formatters import zeitgeist
 from plaso.formatters import zsh_extended_history
+
+from plaso.formatters import filehistory_filelist
+from plaso.formatters import filehistory_global
+from plaso.formatters import filehistory_library
+from plaso.formatters import filehistory_config
+from plaso.formatters import filehistory_restorelog
