@@ -1,0 +1,7 @@
+test_filehistory.db 
+- Result database file of filehistory_parser
+- filehistory_parser records the result of filehistory_parser in log2timeline table
+
+test_vhd.vhd
+- Input data for filehistory_parser
+- Contains Config1,2.xml, Catalog1,2.edb of Windows FileHistory
