@@ -12,20 +12,20 @@ class FileHistoryConfigFormatter(interface.ConditionalEventFormatter):
     DATA_TYPE = 'filehistory:config:event'
 
     FORMAT_STRING_PIECES = [
-        'UserName: {user_name}',
-        'FriendlyName: {friendly_name}',
-        'PCName: {pc_name}',
-        'Library: {library}',
-        'UserFolder: {user_folder}',
-        'FolderExclude: {folder_exclude}',
-        'RetentionPolicy: {retention_policy}',
-        'RetentionAge: {minimum_retention_age}',
-        'FileHistory Frequency: {dp_frequency}',
-        'FileHistory Status: {dp_status}',
-        'BackupStorage Name: {target_name}',
-        'BackupStorage Drive Letter: {target_url}',
-        'BackupStorage Volume GUID: {target_volume_path}',
-        'BackupStorage Path: {target_backup_store_path}']
+        'UserName:{user_name}',
+        'FriendlyName:{friendly_name}',
+        'PCName:{pc_name}',
+        'Library:{library}',
+        'UserFolder:{user_folder}',
+        'FolderExclude:{folder_exclude}',
+        'RetentionPolicy:{retention_policy}',
+        'RetentionAge:{minimum_retention_age}',
+        'FileHistory Frequency:{dp_frequency}',
+        'FileHistory Status:{dp_status}',
+        'BackupStorage Name:{target_name}',
+        'BackupStorage Drive Letter:{target_url}',
+        'BackupStorage Volume GUID:{target_volume_path}',
+        'BackupStorage Path:{target_backup_store_path}']
 
     SOURCE_LONG = 'FileHistory Configuration'
     SOURCE_SHORT = 'BACKUP'

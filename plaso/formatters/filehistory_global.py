@@ -12,8 +12,8 @@ class FileHistoryGlobalTableFormatter(interface.ConditionalEventFormatter):
     DATA_TYPE = 'filehistory:global:event'
 
     FORMAT_STRING_PIECES = [
-        'First FileHistory Backup: {first_backup_timestamp}',
-        'Last FileHistory Backup: {last_backup_timestamp}']
+        'First FileHistory Backup:{first_backup_timestamp}',
+        'Last FileHistory Backup:{last_backup_timestamp}']
 
     SOURCE_LONG = 'FileHistory Global'
     SOURCE_SHORT = 'BACKUP'

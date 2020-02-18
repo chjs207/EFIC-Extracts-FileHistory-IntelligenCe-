@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """This file contains an import statement for each formatter."""
-
+"""
 from plaso.formatters import amcache
 from plaso.formatters import android_app_usage
 from plaso.formatters import android_calls
@@ -126,9 +126,17 @@ from plaso.formatters import xchatlog
 from plaso.formatters import xchatscrollback
 from plaso.formatters import zeitgeist
 from plaso.formatters import zsh_extended_history
+"""
 
 from plaso.formatters import filehistory_filelist
 from plaso.formatters import filehistory_global
 from plaso.formatters import filehistory_library
 from plaso.formatters import filehistory_config
 from plaso.formatters import filehistory_restorelog
+
+from plaso.formatters import mounteddevices
+from plaso.formatters import filehistory_homegroup
+from plaso.formatters import filehistory_usage
+
+from plaso.formatters import mbr
+from plaso.formatters import gpt_entry

@@ -12,11 +12,11 @@ class FileHistoryRestoreLogFormatter(interface.ConditionalEventFormatter):
     DATA_TYPE = 'filehistory:restore:event'
 
     FORMAT_STRING_PIECES = [
-        'FileRecordID: {file_record_id}',
-        'Restored File: {restored_file}',
-        'USN of File: {usn}',
-        'Creation Date: {creation_date}',
-        'Modification Date: {modification_date}']
+        'FileRecordID:{file_record_id}',
+        'Restored File:{restored_file}',
+        'USN of File:{usn}',
+        'Creation Date:{creation_date}',
+        'Modification Date:{modification_date}']
 
     SOURCE_LONG = 'FileHistory RestoreLog'
     SOURCE_SHORT = 'BACKUP'

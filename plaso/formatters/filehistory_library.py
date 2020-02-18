@@ -12,7 +12,7 @@ class FileHistoryLibraryFormatter(interface.ConditionalEventFormatter):
     DATA_TYPE = 'filehistory:library:event'
 
     FORMAT_STRING_PIECES = [
-        'BackupFolder: {backup_folder}']
+        'BackupFolder:{backup_folder}']
 
     SOURCE_LONG = 'FileHistory Backup Folder'
     SOURCE_SHORT = 'BACKUP'
