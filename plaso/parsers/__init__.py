@@ -87,3 +87,6 @@ from plaso.parsers import winreg_plugins
 
 from plaso.parsers import filehistory_config
 from plaso.parsers import filehistory_restorelog
+
+from plaso.parsers import mbr
+from plaso.parsers import gpt_entry

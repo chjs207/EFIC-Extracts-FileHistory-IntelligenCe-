@@ -107,15 +107,15 @@ class FileHistoryConfigParser(interface.FileObjectParser):
                 for sub_lib_node in sub_node:
                     str_sub_tag = sub_lib_node.tag
                     if str_sub_tag == 'Folder':
-                        event_data.library += sub_lib_node.text + ", "
+                        event_data.library += sub_lib_node.text + ","
                         continue
                     else:
                         continue
             if str_tag == 'UserFolder':
-                event_data.user_folder += sub_node.text + ", "
+                event_data.user_folder += sub_node.text + ","
                 continue
             if 'FolderExclude' in str_tag:
-                event_data.folder_exclude += sub_node.text + ", "
+                event_data.folder_exclude += sub_node.text + ","
                 continue
             if str_tag == 'RetentionPolicies':
                 for sub_ret_node in sub_node:

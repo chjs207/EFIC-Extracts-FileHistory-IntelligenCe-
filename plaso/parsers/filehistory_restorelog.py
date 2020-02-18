@@ -50,8 +50,7 @@ class FileHistoryRestoreLogParser(interface.FileObjectParser):
         Args:
             parser_mediator (ParseMediator): mediates interactions between parsers
                 and other components, such as storage and dfvfs.
-            key (str):
-            structure (pyparsing.ParseResults):
+            file_object ():
 
         Raises:
             ParseError: when the structure type is unknown.
@@ -91,5 +90,6 @@ class FileHistoryRestoreLogParser(interface.FileObjectParser):
         date_time = dfdatetime_posix_time.PosixTime(timestamp=0)
         event = time_events.DateTimeValuesEvent(date_time, definitions.TIME_DESCRIPTION_NOT_A_TIME)
         parser_mediator.ProduceEventWithEventData(event, event_data)
+
 
 manager.ParsersManager.RegisterParser(FileHistoryRestoreLogParser)
