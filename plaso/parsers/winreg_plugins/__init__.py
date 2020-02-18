@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Imports for the Windows Registry parser."""
-
+"""
 from plaso.parsers.winreg_plugins import appcompatcache
 from plaso.parsers.winreg_plugins import bagmru
 from plaso.parsers.winreg_plugins import bam
@@ -30,3 +30,7 @@ from plaso.parsers.winreg_plugins import usbstor
 from plaso.parsers.winreg_plugins import winlogon
 from plaso.parsers.winreg_plugins import winrar
 from plaso.parsers.winreg_plugins import windows_version
+"""
+
+from plaso.parsers.winreg_plugins import mounteddevices
+from plaso.parsers.winreg_plugins import filehistory
