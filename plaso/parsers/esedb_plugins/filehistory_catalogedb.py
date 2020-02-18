@@ -104,14 +104,14 @@ class FileHistoryCatalogedbParser(interface.ESEDBPlugin):
 
       if record.get_number_of_values() != 9:
         continue
-
+      id = self._GetRecordValue(record, 0)
       parentId = self._GetRecordValue(record, 1)
-      childId = self._GetRecordValue(record, 2)
+      #childId = self._GetRecordValue(record, 2)
       fileSize = self._GetRecordValue(record, 5)
 
-      if not childId:
+      if not id:
         continue
-      record_values[childId] = [fileSize, parentId]
+      record_values[id] = [fileSize, parentId]
 
     return record_values
 
@@ -224,14 +224,23 @@ class FileHistoryCatalogedbParser(interface.ESEDBPlugin):
 
       event_data = FileHistoryNamespaceEventData()
       backuped_id = record_values.get('tCreated')
+      filerecordid = record_values.get('fileRecordId')
       childid = record_values.get('childId')
-      parent_identifier = files.get(childid)[1]
+
+      if filerecordid != 0:
+        parent_identifier = files.get(filerecordid)[1]
+      else:
+        parent_identifier = record_values.get('parentId')
 
       backuped_date = backupsets.get(backuped_id)
       event_data.file_attribute = record_values.get('fileAttrib')
-      event_data.file_size = files.get(childid)[0]
+      if filerecordid != 0:
+        event_data.file_size = files.get(filerecordid)[0]
+      else:
+        event_data.file_size = 'Unknown'
 
       event_data.usn_number = record_values.get('usn')
+
       event_data.full_filepath = strings.get(parent_identifier) + "\\" + strings.get(childid)
       event_data.file_recordid = record_values.get('fileRecordId')
       created_timestamp = record_values.get('fileCreated')
@@ -353,7 +362,7 @@ class FileHistoryCatalogedbParser(interface.ESEDBPlugin):
       parentid = record_values.get('parentId')
       childid = record_values.get('childId')
       backup_folder_list += str(strings.get(parentid)) + "\\" \
-                            + str(strings.get(childid)) + ", "
+                            + str(strings.get(childid)) + ","
 
     event_data.backup_folder = backup_folder_list
     date_time = dfdatetime_java_time.JavaTime(timestamp=0)
