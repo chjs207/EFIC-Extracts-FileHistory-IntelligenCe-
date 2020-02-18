@@ -1,7 +1,9 @@
-test_filehistory.db 
+test.db 
 - Result database file of filehistory_parser
 - filehistory_parser records the result of filehistory_parser in log2timeline table
 
-test_vhd.vhd
+test_data_new.vhd
 - Input data for filehistory_parser
-- Contains Config1,2.xml, Catalog1,2.edb of Windows FileHistory
+- Contains Restore.log, Config1,2.xml, Catalog1,2.edb of Windows FileHistory
+- Contains SOFTWARE, SYSTEM, NTUSER Hive
+- Contains MBR, GPT entry
