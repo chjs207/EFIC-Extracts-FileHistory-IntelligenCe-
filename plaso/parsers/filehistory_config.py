@@ -53,6 +53,7 @@ class FileHistoryConfigEventData(events.EventData):
         self.target_name = ''
         self.target_url = ''
         self.target_volume_path = ''
+        self.target_drive_type = ''
         self.target_backup_store_path = ''
 
 class FileHistoryConfigParser(interface.FileObjectParser):
@@ -171,6 +172,9 @@ class FileHistoryConfigParser(interface.FileObjectParser):
                         continue
                     if str_sub_tag == 'TargetVolumePath':
                         event_data.target_volume_path = sub_target_node.text
+                        continue
+                    if str_sub_tag == 'TargetDriveType':
+                        event_data.target_drive_type = sub_target_node.text
                         continue
                     if str_sub_tag == 'TargetBackupStorePath':
                         event_data.target_backup_store_path = sub_target_node.text
