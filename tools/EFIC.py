@@ -159,54 +159,63 @@ class ExtractFilehistoryIntelligenCe():
                         backup_data = ''
                 else:
                     continue
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
 
             for list_backup_folder in default_backup_folder:
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                     'Host Windows', 'Include folder to backup', list_backup_folder, source_file))
+                    (pc_name, user_name, date_time, 'modified time of source',
+                     str_where, 'include folder(s)', list_backup_folder, source_file))
                 self.write_result_file.conn.commit()
             for list_backup_folder in user_backup_folder:
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                     'Host Windows', 'Include folder to backup', list_backup_folder, source_file))
+                    (pc_name, user_name, date_time, 'modified time of source',
+                     str_where, 'include folder(s)', list_backup_folder, source_file))
                 self.write_result_file.conn.commit()
             for list_backup_folder in user_exclude_folder:
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                     'Host Windows', 'Exclude folder to backup', list_backup_folder, source_file))
+                    (pc_name, user_name, date_time, 'modified time of source',
+                     str_where, 'exclude folder(s)', list_backup_folder, source_file))
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Set Retention Policy of FileHistory backup data', retention_policy, source_file))
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'set Retention Policy', retention_policy, source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Set Retention Age of FileHistory backup data', retention_age, source_file))
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'set Retention Age', retention_age, source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Set FileHistory Backup Cycle', filehistory_frequency, source_file))
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'set a backup cycle', filehistory_frequency, source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Set FileHistory Status', filehistory_status, source_file))
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'set FileHistory status', filehistory_status, source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Use FileHistory Backup Storage',
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'set a backup storage',
                  backupstorage_name + "," + volume_guid + "," + storage_type, source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, user_name, date_time, 'Modified time of Config.xml',
-                 'Host Windows', 'Store Backup Data', backup_data, source_file))
+                (pc_name, user_name, date_time, 'modified time of source',
+                 str_where, 'execute a backup', backup_data, source_file))
             self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
 
@@ -223,6 +232,16 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             description = row[0]
             split_description = description.split('|`')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
+
             for items in split_description:
                 if 'FileRecordID:' in items:
                     item = items.split(':')
@@ -256,12 +275,13 @@ class ExtractFilehistoryIntelligenCe():
                         modification_date = ''
                 else:
                     continue
+
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (pc_name, "-", date_time, 'Modified time of Restore.log',
-                'Host Windows', 'Restore File by using FileHistory',
-                 restore_file + ", " + "Tc is " + creation_date + ", Tm is " + modification_date +
-                 ", Fid is " + file_record_id + ", Fus is " + file_usn, source_file))
+                (pc_name, "-", date_time, 'modified time of source',
+                str_where, 'restore a file',
+                 restore_file + ", " + "[tc: " + creation_date + ", tm: " + modification_date +
+                 ", Id: " + file_record_id + ", USN: " + file_usn + "]", source_file))
             self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
 
@@ -277,6 +297,16 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             backup_folders = row[0].replace('BackupFolder:', '')
             backup_folder = backup_folders.split(',')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
+
             if len(backup_folder) > 1:
                 for item in backup_folder:
                     if item == '':
@@ -285,14 +315,14 @@ class ExtractFilehistoryIntelligenCe():
                         exclude_folder = item.replace('?Exclude', '')
                         self.write_result_file.cursor.execute(
                             "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                            (host, '-', date_time, '-', 'Host Windows', 'Exclude folder to backup',
+                            (host, '-', date_time, '-', str_where, 'exclude folder(s)',
                              exclude_folder, source_file))
                         self.write_result_file.conn.commit()
                     else:
                         include_folder = item
                         self.write_result_file.cursor.execute(
                             "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                            (host, '-', date_time, '-', 'Host Windows', 'Include folder to backup',
+                            (host, '-', date_time, '-', str_where, 'include folder(s)',
                              include_folder, source_file))
                         self.write_result_file.conn.commit()
             else:
@@ -312,16 +342,26 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             backup_times = row[0].split('|`')
             first_backup_times = backup_times[0].split(':')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
+
             if len(first_backup_times) > 1:
                 first_backup_time = backup_times[0].replace('First FileHistory Backup:', '')
                 last_backup_time = backup_times[1].replace('Last FileHistory Backup:', '')
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (host, '-', date_time, '-', 'Host Windows', "First Backup", first_backup_time, source_file))
+                    (host, '-', date_time, 'FirstBackupTime key of global table', str_where, "execute a backup", "the first backup operation", source_file))
                 self.write_result_file.conn.commit()
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (host, '-', date_time, '-', 'Host Windows', "Lasat Backup", last_backup_time, source_file))
+                    (host, '-', date_time, 'LastBackupTime key of global table', str_where, "execute a backup", "the last backup operation", source_file))
                 self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
 
@@ -336,6 +376,16 @@ class ExtractFilehistoryIntelligenCe():
             host = row[4]
             source_file = row[2] + row[1]
             description = row[0].split('|`')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
+
             for items in description:
                 if 'Backuped Timestamp:' in items:
                     item = items.split(':')
@@ -383,19 +433,19 @@ class ExtractFilehistoryIntelligenCe():
                     continue
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (host, "-", backup_date, "backupset table of Catalog.edb", "Host Windows", "Back up this file",
-                 file_name + "(" + "Fid is " + file_record_id + ", Fus is " + usn_number + ", Fsz is " + file_size + ")", source_file))
+                (host, "-", backup_date, "timestamp column of backupset table", str_where, "back up a file",
+                 file_name + "[ID: " + file_record_id + ", USN: " + usn_number + ", Size: " + file_size + "]", source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (host, "-", creation_date, "namespace table of Catalog.edb", "Host Windows", "Create this file",
-                 file_name + "(" + "Fid is " + file_record_id + ", Fus is " + usn_number + ", Fsz is " + file_size + ")",
+                (host, "-", creation_date, "fileModified column of namespace table", str_where, "modify a file",
+                 file_name + "[ID: " + file_record_id + ", USN: " + usn_number + ", Size: " + file_size + "]",
                  source_file))
             self.write_result_file.conn.commit()
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (host, "-", modification_date, "backupset table of Catalog.edb", "Host Windows", "Modify this file",
-                 file_name + "(" + "Fid is " + file_record_id + ", Fus is " + usn_number + ", Fsz is " + file_size + ")",
+                (host, "-", modification_date, "fileCreated column of namespace table", str_where, "create a file",
+                 file_name + "[ID: " + file_record_id + ", USN: " + usn_number + ", Size: " + file_size + "]",
                  source_file))
             self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
@@ -411,11 +461,20 @@ class ExtractFilehistoryIntelligenCe():
             host = row[4]
             source_file = row[2] + row[1]
             description = row[0].split(":")
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
             if len(description) > 1:
                 volume_guid = description[1]
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (host, "-", date_time, "-", "External Storage", "Use storage", volume_guid, source_file))
+                    (host, "-", date_time, "-", str_where, "use a storage device", volume_guid, source_file))
                 self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
 
@@ -430,11 +489,20 @@ class ExtractFilehistoryIntelligenCe():
             host = row[4]
             source_file = row[2] + row[1]
             description = row[0].split(':')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
             if len(description) > 1:
                 drive_signature = description[1]
                 self.write_result_file.cursor.execute(
                     "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                    (host, "-", date_time, "-", "External Storage", "Use storage", drive_signature, source_file))
+                    (host, "-", date_time, "-", str_where, "use a storage device", drive_signature, source_file))
                 self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
 
@@ -451,6 +519,15 @@ class ExtractFilehistoryIntelligenCe():
             description = row[0].split('|`')
             drive_letter = ''
             disk_signature = ''
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
             if 'Drive Letter:' in description[1]:
                 item = description[1].split(':')
                 if len(item) > 1:
@@ -465,7 +542,7 @@ class ExtractFilehistoryIntelligenCe():
                     disk_signature = ''
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (host, "-", date_time, "Registry key Last written time", 'Host Windows', 'Use storage',
+                (host, "-", date_time, "registry key's last written time", str_where, 'use a storage deivce',
                  "(" + drive_letter + ")" + ", " + disk_signature, source_file))
             self.write_result_file.conn.commit()
         self.write_result_file.close_result_file()
@@ -485,6 +562,15 @@ class ExtractFilehistoryIntelligenCe():
             backup_storage_name = ''
             drive_letter = ''
             filehistory_pcname = ''
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
             for items in description:
                 if 'User type:' in items:
                     item = items.split(':')
@@ -516,8 +602,8 @@ class ExtractFilehistoryIntelligenCe():
                     continue
             self.write_result_file.cursor.execute(
                 "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                (host, "-", date_time, "Registry key Last written time", 'Host Windows',
-                 "Use stroage as FileHistory " + user_type, backup_storage_name + "(" + drive_letter + ")" + " of " + filehistory_pcname,
+                (host, "-", date_time, "registry key's last written time", str_where,
+                 "set a backup storage through HomeGroup", backup_storage_name + "(" + drive_letter + ")" + ", " + filehistory_pcname,
                  source_file))
             self.write_result_file.conn.commit()
 
@@ -532,6 +618,16 @@ class ExtractFilehistoryIntelligenCe():
             host = row[4]
             source_file = row[2] + row[1]
             description = row[0].split('|`')
+            split_sourcefile = source_file.split('/')
+            if 'FileHistory' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                str_where = 'Backup'
+            elif 'MBR' in split_sourcefile[1]:
+                str_where = 'Backup'
+            else:
+                str_where = 'Host'
+
             for items in description:
                 if 'Last Backup Time:' in items:
                     item = items.split(':')
@@ -539,7 +635,8 @@ class ExtractFilehistoryIntelligenCe():
                         last_backup_time = items.replace('Last Backup Time:', '')
                         self.write_result_file.cursor.execute(
                             "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                            (host, "-", last_backup_time, "Registry value", "Host Windows", "Last Backup", "FileHistory", source_file))
+                            (host, "-", last_backup_time, "registry value's QWORD data", str_where, "execute a backup",
+                             "the last backup operation", source_file))
                         self.write_result_file.conn.commit()
                 elif 'Backup Storage Changed:' in items:
                     item = items.split(':')
@@ -547,8 +644,8 @@ class ExtractFilehistoryIntelligenCe():
                         backup_storage_changed = items.replace('Backup Storage Changed:', '')
                         self.write_result_file.cursor.execute(
                             "insert into filehistory values (?,?,?,?,?,?,?,?)",
-                            (host, "-", date_time, "Registry key Last written time", "Host Windows", backup_storage_changed,
-                             "Backup storage", source_file))
+                            (host, "-", date_time, "registry key's last written time", str_where, backup_storage_changed,
+                             "value ov storage changed", source_file))
                         self.write_result_file.conn.commit()
                 else:
                     continue
