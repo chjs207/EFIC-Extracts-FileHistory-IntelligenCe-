@@ -11,6 +11,8 @@ result_efic_tool.db
 - contains normalization result between test_win10.db and test_usb.db
 
 test files
+https://drive.google.com/drive/folders/16I1W5GEstT6EH0ryq5QMME1JOVenNiJC?usp=sharing
 
 - test_file
-- Win10.E01, USBStor.E01 
+- Win10.E01
+- USBStor.E01 
