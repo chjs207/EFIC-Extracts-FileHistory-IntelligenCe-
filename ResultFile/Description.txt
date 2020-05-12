@@ -1,9 +1,16 @@
-test.db 
-- Result database file of filehistory_parser
-- filehistory_parser records the result of filehistory_parser in log2timeline table
+test_win10.db 
+- psort result database
+- contains analysis result of Host Windows Win10.E01
 
-test_data_new.vhd
-- Input data for filehistory_parser
-- Contains Restore.log, Config1,2.xml, Catalog1,2.edb of Windows FileHistory
-- Contains SOFTWARE, SYSTEM, NTUSER Hive
-- Contains MBR, GPT entry
+test_usb.db
+- psort result database
+- contains analysis result of USBStor.E01
+
+result_efic_tool.db
+- efic result database
+- contains normalization result between test_win10.db and test_usb.db
+
+test files
+
+- test_file
+- Win10.E01, USBStor.E01 
