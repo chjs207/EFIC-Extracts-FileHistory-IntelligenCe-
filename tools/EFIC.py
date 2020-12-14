@@ -1,5 +1,6 @@
 import sqlite3
 import argparse
+import os
 
 
 class WriteFilehistoryIntelligenCe():
@@ -160,6 +161,9 @@ class ExtractFilehistoryIntelligenCe():
                 else:
                     continue
             split_sourcefile = source_file.split('/')
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
             if 'FileHistory' in split_sourcefile[1]:
                 str_where = 'Backup'
             elif 'Primary Partition Entry Array' in split_sourcefile[1]:
@@ -233,6 +237,9 @@ class ExtractFilehistoryIntelligenCe():
             description = row[0]
             split_description = description.split('|`')
             split_sourcefile = source_file.split('/')
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
             if 'FileHistory' in split_sourcefile[1]:
                 str_where = 'Backup'
             elif 'Primary Partition Entry Array' in split_sourcefile[1]:
@@ -298,14 +305,19 @@ class ExtractFilehistoryIntelligenCe():
             backup_folders = row[0].replace('BackupFolder:', '')
             backup_folder = backup_folders.split(',')
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
 
             if len(backup_folder) > 1:
                 for item in backup_folder:
@@ -343,14 +355,20 @@ class ExtractFilehistoryIntelligenCe():
             backup_times = row[0].split('|`')
             first_backup_times = backup_times[0].split(':')
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
 
             if len(first_backup_times) > 1:
                 first_backup_time = backup_times[0].replace('First FileHistory Backup:', '')
@@ -377,14 +395,20 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             description = row[0].split('|`')
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
 
             for items in description:
                 if 'Backuped Timestamp:' in items:
@@ -462,14 +486,21 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             description = row[0].split(":")
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
+
             if len(description) > 1:
                 volume_guid = description[1]
                 self.write_result_file.cursor.execute(
@@ -490,14 +521,21 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             description = row[0].split(':')
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
+
             if len(description) > 1:
                 drive_signature = description[1]
                 self.write_result_file.cursor.execute(
@@ -520,14 +558,21 @@ class ExtractFilehistoryIntelligenCe():
             drive_letter = ''
             disk_signature = ''
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
+
             if 'Drive Letter:' in description[1]:
                 item = description[1].split(':')
                 if len(item) > 1:
@@ -563,14 +608,21 @@ class ExtractFilehistoryIntelligenCe():
             drive_letter = ''
             filehistory_pcname = ''
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
+
             for items in description:
                 if 'User type:' in items:
                     item = items.split(':')
@@ -619,14 +671,20 @@ class ExtractFilehistoryIntelligenCe():
             source_file = row[2] + row[1]
             description = row[0].split('|`')
             split_sourcefile = source_file.split('/')
-            if 'FileHistory' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'Primary Partition Entry Array' in split_sourcefile[1]:
-                str_where = 'Backup'
-            elif 'MBR' in split_sourcefile[1]:
-                str_where = 'Backup'
+            if len(split_sourcefile) == 0:
+                split_sourcefile = source_file.split('\\')
+
+            if len(split_sourcefile) > 1:
+                if 'FileHistory' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'Primary Partition Entry Array' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                elif 'MBR' in split_sourcefile[1]:
+                    str_where = 'Backup'
+                else:
+                    str_where = 'Host'
             else:
-                str_where = 'Host'
+                str_where = 'LogicalExtract'
 
             for items in description:
                 if 'Last Backup Time:' in items:
